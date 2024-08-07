@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Form = ({ type, onSubmit }) => {
   const [data, setData] = useState({
@@ -15,10 +16,10 @@ const Form = ({ type, onSubmit }) => {
       [name]: value,
     });
   };
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(data);
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -33,7 +34,7 @@ const Form = ({ type, onSubmit }) => {
                   : "Register here to continue"}
               </h1>
             </div>
-            <form onSubmit = {handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <div className="divide-y divide-gray-200">
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                   <div className="relative">
@@ -44,7 +45,8 @@ const Form = ({ type, onSubmit }) => {
                       type="text"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600" // Fixed typo: focus:borer -> focus:border
                       placeholder="Email address"
-                      onChange={handleChange} required
+                      onChange={handleChange}
+                      required
                     />
                     <label
                       htmlFor="email"
@@ -62,7 +64,8 @@ const Form = ({ type, onSubmit }) => {
                         type="text"
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600" // Fixed typo: focus:borer -> focus:border
                         placeholder="Username"
-                        onChange={handleChange} required
+                        onChange={handleChange}
+                        required
                       />
                       <label
                         htmlFor="username"
@@ -80,7 +83,8 @@ const Form = ({ type, onSubmit }) => {
                       type="password"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600" // Fixed typo: focus:borer -> focus:border
                       placeholder="Password"
-                      onChange={handleChange} required
+                      onChange={handleChange}
+                      required
                     />
                     <label
                       htmlFor="password"
@@ -94,6 +98,25 @@ const Form = ({ type, onSubmit }) => {
                       Submit
                     </button>
                   </div>
+                  {type === "Register" ? (
+                    <div className="relative mt-9">
+                      <Link
+                        to="/login"
+                        className="text-blue-800 hover:text-blue-800 transition-colors duration-300 text-[1rem] font-medium"
+                      >
+                        Go to login
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="relative mt-9">
+                      <Link
+                        to="/register"
+                        className="text-blue-800 hover:text-blue-800 transition-colors duration-300 text-[1rem] font-medium"
+                      >
+                        Go to register
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </form>
