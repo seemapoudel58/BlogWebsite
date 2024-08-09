@@ -1,35 +1,48 @@
 import React from "react";
+import { FaUserCircle, FaRegClock } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const Card = () => {
+const Card = ({ blog }) => {
+
+  const createdAt = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(new Date(blog.userId.createdAt));
+
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg m-4 ">
+    <Link to ={`/blog/${blog._id}`}>
+
+    <div className="max-w-sm rounded overflow-hidden shadow-lg m-4">
       <img
         className="w-full h-64 object-cover"
-        src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDZ8fGNvZmZlZXxlbnwwfHx8fDE2Njk2ODU1NTc&ixlib=rb-1.2.1&q=80&w=400"
+        src={blog.imageUrl}
         alt="Coffee cup"
       />
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">
-          Can coffee make you a better developer?
+        <div className="font-bold text-xl mb-2">{blog.title}</div>
+        <div className="flex items-center text-gray-500 mb-4">
+          <div className="flex items-center space-x-2 mr-4">
+            <FaUserCircle />
+            <span>{blog.userId.username}</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <FaRegClock />
+            <span>{createdAt}</span>
+          </div>
         </div>
-        <p className="text-gray-700 text-base">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
-          quia, nulla! Maiores et perferendis eaque, exercitationem praesentium
-          nihil.
-        </p>
+        <p className="text-gray-700 text-base">{blog.description}</p>
       </div>
       <div className="px-6 pt-4 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          #coffee
-        </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          #development
-        </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          #productivity
+          #{blog.category}
         </span>
       </div>
     </div>
+    </Link>
+
   );
 };
 

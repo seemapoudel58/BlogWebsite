@@ -15,7 +15,7 @@ const AddBlog = () => {
           "Content-Type": "multipart/form-data",
           "Authorization": localStorage.getItem('token')
         }
-      });
+      }); 
       
       if (response.status === 201) {
         navigate('/');
