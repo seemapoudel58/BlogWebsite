@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { baseUrl } from "../../config";
 import axios from "axios";
 import Loading from "../Loading";
@@ -9,6 +9,7 @@ const SingleBlog = () => {
   const [blog, setBlog] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const createdAt = blog.userId?.createdAt
     ? new Intl.DateTimeFormat("en-US", {
@@ -19,6 +20,23 @@ const SingleBlog = () => {
         minute: "numeric",
       }).format(new Date(blog.userId.createdAt))
     : "N/A";
+
+  const deleteBlog = async () => {
+    try {
+      const response = await axios.delete(`${baseUrl}/blog/${id}`, {
+        headers: {
+          "Authorization": localStorage.getItem('token')
+        },
+      });
+      if (response.status === 200) {
+        navigate("/");
+      } else {
+        alert("Error deleting blog");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
   const fetchBlogDetail = async () => {
     try {
@@ -31,7 +49,7 @@ const SingleBlog = () => {
     } catch (error) {
       setLoading(false);
       if (error.response) {
-      console.log(error.response.data.message);
+        console.log(error.response.data.message);
       } else {
         console.log(error.message);
       }
@@ -54,7 +72,7 @@ const SingleBlog = () => {
                 <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
                   <img
                     className="w-full h-full object-cover"
-                    src={blog.imageUrl}
+                    src={blog?.imageUrl}
                     alt="Product Image"
                   />
                 </div>
@@ -67,7 +85,10 @@ const SingleBlog = () => {
                     </Link>
                   </div>
                   <div className="w-1/2 px-2">
-                    <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">
+                    <button
+                      className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600"
+                      onClick={() => deleteBlog(blog._id)}
+                    >
                       Delete
                     </button>
                   </div>
@@ -78,7 +99,7 @@ const SingleBlog = () => {
                   Blog Title
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                  {blog.title}
+                  {blog?.title}
                 </p>
                 <div className="flex mb-4">
                   <div className="mr-4">
@@ -86,7 +107,7 @@ const SingleBlog = () => {
                       Category :
                     </span>
                     <span className="text-gray-600 dark:text-gray-300">
-                      {blog.category}
+                      {blog?.category}
                     </span>
                   </div>
                   <div>
@@ -104,7 +125,7 @@ const SingleBlog = () => {
                     Description :
                   </span>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                    {blog.description}
+                    {blog?.description}
                   </p>
                 </div>
               </div>

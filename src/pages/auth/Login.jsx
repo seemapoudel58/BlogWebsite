@@ -9,7 +9,7 @@ const Login = () => {
   const handleLogin = async (data) => {
     try {
       const response = await axios.post(
-        `${baseUrl}/login`,
+        `${baseUrl}/login`, 
         data
       );
       if (response.status === 200) {
